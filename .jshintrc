@@ -1,0 +1,11 @@
+{
+  "esnext": true,
+  "eqeqeq": true,
+  "latedef": true,
+  "noarg": true,
+  "nonbsp": true,
+  "shadow": false,
+  "undef": true,
+  "unused": true,
+  "lastsemic": true
+}

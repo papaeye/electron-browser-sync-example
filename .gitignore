@@ -1,0 +1,5 @@
+*.log
+.tern-port
+/build/
+/node_modules/
+flycheck_*
