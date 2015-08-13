@@ -56,7 +56,7 @@ gulp.task('scripts:renderer', () => {
     .pipe($.plumber())
     .pipe($.babel())
     .pipe(gulp.dest(dest))
-    .pipe((browserSync.active ? browserSync : BrowserSync).stream());
+    .pipe($.if(browserSync.active, browserSync.stream()));
 });
 
 function runElectronApp(path, env={}) {
