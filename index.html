@@ -8,5 +8,16 @@
     We are using io.js <script>document.write(process.version)</script>
     and Electron <script>document.write(process.versions.electron)</script>.
     <script src="renderer.js"></script>
+    <!-- build:remove -->
+    <script>
+      if (process.env.BROWSER_SYNC_CLIENT_URL) {
+        const current = document.currentScript;
+        const script = document.createElement('script');
+        script.src = process.env.BROWSER_SYNC_CLIENT_URL;
+        script.async = true;
+        current.parentNode.insertBefore(script, current);
+      }
+    </script>
+    <!-- endbuild -->
   </body>
 </html>

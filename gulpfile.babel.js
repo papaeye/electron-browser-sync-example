@@ -17,7 +17,8 @@ const src = {
     main: ['main.js', '!**/flycheck_*.js'],
     renderer: ['renderer.js', '!**/flycheck_*.js']
   },
-  static: ['*.html', '*.json']
+  html: ['*.html'],
+  static: ['*.json']
 };
 const dest = 'build';
 
@@ -27,7 +28,15 @@ gulp.task('clean', cb => {
 
 gulp.task('build', ['copy', 'scripts']);
 
-gulp.task('copy', () => {
+gulp.task('copy', ['copy:html', 'copy:static']);
+
+gulp.task('copy:html', () => {
+  return gulp.src(src.html)
+    .pipe($.if(process.env.NODE_ENV === 'production', $.useref()))
+    .pipe(gulp.dest(dest));
+});
+
+gulp.task('copy:static', () => {
   return gulp.src(src.static)
     .pipe($.changed(dest))
     .pipe(gulp.dest(dest));
@@ -105,8 +114,8 @@ gulp.task('watch', ['build'], cb => {
     // Instead, use browserSync.watch here.
     browserSync.watch(src.scripts.renderer)
       .on('change', () => gulp.start('scripts:renderer'));
-    browserSync.watch(src.static)
-      .on('change', () => gulp.start('copy', browserSync.reload));
+    browserSync.watch(src.html)
+      .on('change', () => gulp.start('copy:html', browserSync.reload));
 
     cb();
   });
