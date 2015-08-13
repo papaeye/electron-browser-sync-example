@@ -65,11 +65,15 @@ gulp.task('serve', ['build'], () => {
 
 gulp.task('watch', ['build'], cb => {
 
+  function getRootUrl(options) {
+    const port = options.get('port');
+    return `http://localhost:${port}`;
+  }
+
   function getClientUrl(options) {
     const connectUtils = require('browser-sync/lib/connect-utils');
-    const port = options.get('port');
     const pathname = connectUtils.clientScript(options);
-    return `http://localhost:${port}${pathname}`;
+    return getRootUrl(options) + pathname;
   }
 
   const options = {
@@ -83,7 +87,7 @@ gulp.task('watch', ['build'], cb => {
     logSnippet: false,
     socket: {
       // Use the actual port here.
-      domain: (options) => `http://localhost:${options.get('port')}`
+      domain: getRootUrl
     }
   };
 
